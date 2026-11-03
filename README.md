@@ -135,45 +135,64 @@ I didn't collect them rather than invent a fourth label for them.
 <!-- Where you collected from, how you labelled, your counts, and three hard
      cases. -->
 
-**Where the posts came from:**
+**Where the posts came from:** Fitness Stack Exchange, through its public
+API. I pulled the 300 newest answers and the 300 newest comments (early
+November 2026), stripped the HTML, and kept every post whole. I dropped exact
+duplicates, posts under 60 characters, posts over 1,600 characters, and
+chatter: thanks, moderation, and short questions back to the asker. That left
+449 candidates. 219 of them are in `labels.csv`.
 
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
+**How I labelled them:**
+
+1. **20 cold, by me.** No tools, only the definitions and the rule. They're
+   marked `cold` in the note column and I haven't changed any of them since.
+2. **The rest were pre-labelled by Claude.** Claude labelled the 449
+   candidates in three batches using my definitions and rule, word for word.
+   73 were marked skip (chatter that got past the filter). From the rest I
+   took a balanced 200: 60 evidence, 60 personal, 80 claim.
+3. **A second, blind pass.** A separate Claude run labelled those 200 again
+   without seeing the first labels. The two passes agreed on 175 of 200
+   (87.5%).
+4. **I decided all 25 disagreements myself.** I read each post with both
+   labels and picked one. I dropped one of them (a comment that was only a
+   link) as not really a post. The note column says which rows went through
+   this.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| `claim` | 85 | 38.8% |
+| `personal` | 70 | 32.0% |
+| `evidence` | 64 | 29.2% |
+| **Total** | 219 | 100% |
+
+`claim` is the biggest, as I expected. On the real site it's even bigger:
+the first pre-label pass put it near 59% of one batch. I sampled down to keep
+it under the 60% in criterion 3.
 
 **Three hard cases**
 
-<!-- Any post that made you pause: what it was, which two labels it could have
-     been, and what you chose. These are worth more than the easy 190. -->
-
 **1.**
-> *The post:*
+> *The post:* "Note that calculators and apps for working these things out can be at least as wrong, I just tried this one niddk.nih.gov/bwp (which being NIH ought to be good) and it said I would need to eat 3,300 calories a day to maintain my current weight. I would be huge if I ate anything close to that, 2,500 would be more realistic. At the end of the day (IMHO) there is so much individual variability that it is all just a "rule of thumb"..."
 >
-> *Could have been:*
+> *Could have been:* `evidence` (it names the NIH planner and a number) or `personal`.
 >
-> *I chose, because:*
+> *I chose, because:* `personal`. The NIH source isn't backing the point. It's what the poster is arguing *against*, and the support is their own body ("I would be huge"). The 3,300 and 2,500 are numbers about them.
 
 **2.**
-> *The post:*
+> *The post:* "Of course you can, you may take a little longer to build up levels of testosterone ... You can follow a guide like this https://homefitnesscorp.com/blogs/workout-gym-tips/free-weights-workout-lower-body-leg-routine which will help with lower body workouts. Apart from that advice, just rest, enough sleep and a healthy diet will help you a lot ... I tend to do, Arms one day, Chest the next..."
 >
-> *Could have been:*
+> *Could have been:* `evidence` (it links a source) or `claim` (the link is just a routine, and the hormone talk has nothing behind it).
 >
-> *I chose, because:*
+> *I chose, because:* `evidence`. My rule counts a named source and a reader can follow the link and check it. This is the case where my rule is most generous, and I'll watch for it in unit 6.
 
 **3.**
-> *The post:*
+> *The post:* "I suffered from shin splints and a stress fracture when I got back to running after 15 years of less than healthy habits. My physical therapist noted that I had bad running form ... my average cadence went from 160 to 175 over the next year. I am generally between 175 and 180 now. I have been running for many years now, and was even able to qualify for Boston..."
 >
-> *Could have been:*
+> *Could have been:* `evidence` (one pre-label pass found a general 170–180 cadence figure in it) or `personal`.
 >
-> *I chose, because:*
+> *I chose, because:* `personal`. Almost every number is the poster's own (160 to 175, qualifying for Boston), and my rule says numbers about yourself are personal. The story is the support.
 
 ---
 
