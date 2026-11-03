@@ -200,15 +200,33 @@ it under the 60% in criterion 3.
 
 <!-- Your starting model, your settings, and anything you changed and why. -->
 
-**Base model:**
+**Base model:** `distilbert-base-uncased`
 
-**Settings:** <!-- epochs, learning rate, batch size, seed -->
+**Settings:** 3 epochs, learning rate 2e-5, batch size 16, max length 128
+tokens, seed 42.
 
-**Anything I changed from the defaults, and why:**
+**Anything I changed from the defaults, and why:** Nothing. The only edit to
+the notebook was `LABELS = ["evidence", "claim", "personal"]` and my name.
 
-**Split sizes:** <!-- train / val / test, and per-label counts in the test
-split. If a label had fewer than about 8 in test, say so — it explains a lot
-of next unit's variance. -->
+One thing to know about max length: many Fitness SE answers are longer than
+128 tokens, so the model only reads the start of them. In some long answers
+the checkable fact comes near the end, which could matter for `evidence`.
+I've left it at the default for now and noted it for unit 6.
+
+**Where it ran:** `mps` (Apple Silicon GPU), torch 2.14.1. `results.json`
+records the same. Training took about 14 seconds.
+
+**Split sizes:** 153 train / 33 val / 33 test (70/15/15, stratified).
+
+| Label | Train | Val | Test |
+|---|---|---|---|
+| `evidence` | 45 | 9 | 10 |
+| `claim` | 59 | 13 | 13 |
+| `personal` | 49 | 11 | 10 |
+
+Every label has at least 10 in test, so none falls below the ~8 the brief
+warns about. Ten is still small, though: one post changes a label's recall by
+10 points.
 
 
 
