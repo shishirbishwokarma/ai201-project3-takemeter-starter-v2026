@@ -39,9 +39,14 @@
 
 ## What This Does
 
-<!-- Your community, and what your classifier sorts posts into. Three or four
-     sentences. -->
-
+TakeMeter sorts posts from **Fitness Stack Exchange**, the public Q&A site
+for lifting, running and nutrition, by what they offer to back up what they
+say. A post is `evidence` if it gives a fact you could check (a study, a
+number, a named rule), `personal` if the support is the poster's own
+training, and `claim` if it's only confident say-so. Fitness advice is
+everywhere and most of it is unsourced. A model like this could flag which
+answers are worth trusting and which you should check before you change your
+training. It's a fine-tuned DistilBERT trained on 219 posts I labelled.
 
 
 ---
@@ -241,19 +246,53 @@ warns about. Ten is still small, though: one post changes a label's recall by
      workflow and disclosing it costs you nothing. Not disclosing it is the
      problem. -->
 
-**Moment 1**
+**Moment 1: stress-testing the labels (Milestone 2)**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* I gave Claude my three definitions and the "a checkable
+  fact is enough" rule, and asked for eight made-up posts that sit right on
+  the boundaries.
+- *What came back:* Eight posts. Six I could label cleanly. Two I couldn't:
+  "Rest 2-3 minutes between heavy sets. Anything less and your bar speed
+  drops." has a number but is advice, and "I cut from 90 to 78 kg in six
+  months" is all numbers but only about the poster. The full table is in
+  `community_notes.md`.
+- *What I changed:* I added two lines under my rule: a prescription with a
+  number isn't a checkable fact (so it's `claim`), and numbers about yourself
+  are `personal`. I didn't change the labels themselves. I also put the same
+  exceptions into `label_definitions.txt` so the baseline gets them too.
 
-**Moment 2**
+**Moment 2: pre-labelling with two blind passes (Milestone 4)**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Claude pre-labelled the 449 candidate posts using my
+  definitions word for word. Then a separate Claude run re-labelled the 200
+  I picked without seeing the first labels, so I could see where it was
+  unsure instead of trusting one pass.
+- *What came back:* The passes agreed on 175 of 200 (87.5%). Nearly all 25
+  splits were on my hardest boundaries: posts that only link a resource or
+  name a program (evidence or claim?), and running or weight stories with
+  one general fact inside (evidence or personal?).
+- *What I changed:* I decided all 25 myself. Mostly I went with personal when
+  the poster's own body was the real support, even if a source was named (the
+  NIH calorie planner post is hard case 1). I dropped one comment that was
+  only a link. Doing this showed me my rule is generous about links. I count
+  a bare link as a named source, and the second pass didn't.
 
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:** 199 of the 219 rows were pre-labelled by Claude
+(the note column says `pre-labelled (Claude)` on every one of them). The 20
+`cold` rows are mine alone, labelled with no tools before I saw any AI labels.
+For the 25 posts where the two Claude passes disagreed, I read each post and
+chose the label (24 kept, one dropped); the note says `passes split A/B, I
+decided X`. For the 175 rows where both passes agreed, I kept the label and haven't yet re-read each
+one individually. I'm reviewing those before unit 6 and will note any I
+change.
+
+**Other AI use, for honesty:** for `criteria.md`, I asked Claude for
+suggestions. It wouldn't write the criteria, but it gave me options for each
+number and each reason, and I picked one of each. It then gave one "too easy"
+and one "too hard" reason for every target and pointed out that #4 needed a
+confidence cutoff someone else could check, so I added 0.7. When I asked it
+to suggest labels for the 20 cold posts, it refused, because that would make
+them not cold.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
