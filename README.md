@@ -286,14 +286,6 @@ decided X`. For the 175 rows where both passes agreed, I kept the label and have
 one individually. I'm reviewing those before unit 6 and will note any I
 change.
 
-**Other AI use, for honesty:** for `criteria.md`, I asked Claude for
-suggestions. It wouldn't write the criteria, but it gave me options for each
-number and each reason, and I picked one of each. It then gave one "too easy"
-and one "too hard" reason for every target and pointed out that #4 needed a
-confidence cutoff someone else could check, so I added 0.7. When I asked it
-to suggest labels for the 20 cold posts, it refused, because that would make
-them not cold.
-
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
      Don't fill these in during unit 5.
