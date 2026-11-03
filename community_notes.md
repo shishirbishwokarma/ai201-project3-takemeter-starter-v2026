@@ -43,3 +43,24 @@ Distinction 1 vs 2 looks like the strongest one, and it's the one the
 community itself cares about. A comment literally asks someone to add the
 reference. Number 3 might be its own label or might fold into one of the
 others; I'll find out in Milestone 2.
+
+# Milestone 2 — stress test of the labels
+
+I gave the three definitions and the rule to Claude and asked for eight posts
+that sit on the boundaries. I tried to label each one using only the rule:
+
+| # | Post (made up, for the test) | My label | Clean? |
+|---|---|---|---|
+| 1 | "Rest 2-3 minutes between heavy sets. Anything less and your bar speed drops." | ? | **No.** Has a number, but it's advice, not a fact |
+| 2 | "Your BMR at 80 kg is around 1,800 kcal, so a 500 kcal deficit is about half a kilo a week." | evidence | yes |
+| 3 | "I cut from 90 to 78 kg in six months doing exactly 500 under maintenance." | ? | **No.** Numbers, but only about the poster |
+| 4 | "Creatine is the most researched supplement there is. Just take it." | claim | yes. "Most researched" isn't specific |
+| 5 | "The ACSM recommends 150 minutes of moderate cardio a week." | evidence | yes |
+| 6 | "Squats are bad for your knees. Everyone knows that." | claim | yes |
+| 7 | "Lol same, my DOMS after leg day lasted 4 days." | personal | yes |
+| 8 | "Since 2019 the IPF wants a pause on bench, so touch-and-go won't count at a meet." | evidence | yes |
+
+Two of the eight broke "a checkable fact is enough", so I added two lines
+under the rule: a prescription with a number isn't a fact (#1 → claim), and
+numbers about yourself are personal (#3 → personal). After that all eight
+sorted cleanly.

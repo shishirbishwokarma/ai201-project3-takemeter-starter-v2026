@@ -54,34 +54,78 @@
      The decision rule is worth a point on its own and it's the thing most
      people leave out. Every taxonomy has a hardest boundary. Name yours. -->
 
-### `label_one`
+Three labels, about *what a post offers to back up what it says*. That's the
+thing Fitness SE itself cares about. One comment I read just says "Please
+consider editing your answer to include the reference."
 
-**Definition:**
+### `evidence`
 
-**Example 1:**
->
-
-**Example 2:**
->
-
-### `label_two`
-
-**Definition:**
+**Definition:** The post backs its point with a specific fact a reader could
+check: a study, a number, a date, a named rule or a named source.
 
 **Example 1:**
->
+> According to this study: Long-Term Effects of HIIT on Cardiac Function and Mortality in Heart Failure, (emphasize mine): Long-term HIIT is highly effective in improving cardiac performance, decreasing the severity of HF (heart failure) symptoms, and improving the quality of life among patients. [...] Early HIIT, tailored to the individual needs of each patient, has the potential to improve clinical outcomes and increase survival rates in heart failure populations. Since you're mostly concern with the heart rate, there you go. Yes, it is even beneficial for the heart.
 
 **Example 2:**
->
+> The rule you're talking about is the IPF's 2023 change: at the bottom of the rep, the elbows have to drop below the top of the shoulder joint. It was aimed squarely at the extreme-arch, ultra-wide-grip benches where the bar barely moved. And like the comment says, judging it is genuinely fuzzy — it's a visual call from the side of the platform, and when it first came in even experienced judges weren't calling it consistently. Since you can't control the judging, control your margin: Set up for your stiff days, not your best days. [...the rest is setup advice, and it ends with "If you compete outside the IPF, read your own federation's rulebook for the division you're in."]
+
+### `claim`
+
+**Definition:** The post gives advice or an opinion with confidence but
+offers nothing checkable and no personal experience behind it. It's only the
+poster's say-so.
+
+**Example 1:**
+> It won't affect your gains if you run daily for 30 minutes. You don't have to think about it. If you want to be safe with your progress then remember to do strength training before running when you do it in a same day. Right after running you will have worse results in lifts but if running is in another day then it's gonna be okay. Answering your question - lower intensivity activities will be better if you want to affect less your lifts but they will be worse in building your conditioning.
+
+**Example 2:**
+> Second-guessing pain mechanisms with biomechanical models is so 90's...
+
+### `personal`
+
+**Definition:** The post's support, or the whole post, is the poster's own
+training, body or experience: "I did X and Y happened."
+
+**Example 1:**
+> I used to have one of these and am considering getting another. I used one as a kid and got a 6 pack within weeks. You use it while doing crunches with yoir feet elevated for 3 minute sessions 3 times a week. Having this to pull against your abs just kind of forced you to brace your core more. I don't know if it really helps that much.
+
+**Example 2:**
+> Thanks, I figured out the flexibility by now :) I've been running the blacknoir version of the program for about two months now, and am quite happy with it. It's much lighter than full body no split workouts (which made me dread training days recently)
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `evidence` and `claim`, when a post states specific
+facts with confidence but names no source. The post that showed me this:
 
-**The decision rule I used every time:**
-<!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
-     if the tone is heated." -->
+> In the hip flexion arc of squats, glute activation is virtually just as high towards 150 degrees as it is close to (over-)extension. The quads aren't even able to generate a lot of force beyond 135 degrees knee flexion due to their length-strength profile.
 
+Nothing is cited, so it reads like a claim. But the 150° and 135° are things
+you could look up and prove wrong.
+
+**The decision rule I used every time:** A checkable fact is enough. If the
+post states a specific fact about the world that a reader could verify (a
+number, a date, an angle, a named rule, a study), it's `evidence`, even if no
+source is named and even if the tone is confident. The squat comment above is
+`evidence`.
+
+Two things don't count as a checkable fact (both came out of the stress test
+in How I Used AI):
+
+- **A prescription with a number in it.** "Rest 2–3 minutes between heavy
+  sets" tells you what to do; it isn't a fact about the world. On its own
+  that's `claim`.
+- **Numbers about the poster's own body or training.** "I cut from 90 to 78 kg"
+  can't be checked by anyone else. That's `personal`.
+
+For posts that mix them, the order is evidence first, then personal, then
+claim. One checkable fact anywhere makes it `evidence`. Otherwise, if the
+poster's own experience is what's backing it up, it's `personal`. Otherwise
+it's `claim`.
+
+**Left out on purpose:** thanks, site moderation ("This borders on spam"),
+and back-and-forth about the thread itself. They're a big share of the
+comments, but they aren't about fitness and none of the three labels fit.
+I didn't collect them rather than invent a fourth label for them.
 
 
 ---
