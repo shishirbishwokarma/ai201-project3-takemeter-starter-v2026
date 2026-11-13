@@ -450,7 +450,7 @@ treats almost every `evidence` post as `claim`, and it only predicted
 | 1 | Overall accuracy | ≥ 0.55 on all three seeds | MISSED | 0.636, 0.485, 0.545. Two of three are under 0.55. |
 | 2 | Every label F1 | ≥ 0.40 on all three seeds | MISSED | `evidence` F1 was 0.182, 0.182, 0.000. `claim` and `personal` cleared 0.40 on every seed. |
 | 3 | Largest label share | ≤ 60% of `labels.csv` | MET | `claim` is 85 of 219, 38.8%. |
-| 4 | Confident vs unsure accuracy gap | ≥ 10 points on all three seeds | BROKEN | No prediction on any seed went above 0.7, so the "confident" group is empty and there's no gap to measure. |
+| 4 | Confident vs unsure accuracy gap (revised) | Most confident third ≥ 10 points more accurate than least confident third, on all three seeds | MISSED | +54.5, +54.5, +9.1 points. Seed 2024 is under 10. The original 0.7 version couldn't be measured (no prediction went above 0.7), so I revised it in `criteria.md` and kept the original line. |
 | 5 | Re-label 20 `cold` posts | ≥ 16 / 20 the same | MISSED | 10 / 20 the same. |
 
 **Diagnoses**
@@ -752,6 +752,18 @@ with the rule in front of me, which is easier than labelling cold. So there
 may be more noise I didn't catch, especially between `claim` and `personal`.
 
 
+
+### Stretch features (declared before building)
+
+I'm declaring these two before I do them:
+
+1. **A second measured improvement:** raise max length from 128 to 256
+   tokens, keeping the corrected labels and everything else the same, and run
+   the same three seeds. This tests the guess in What's Still Broken that long
+   answers get cut off before the fact that makes them `evidence`.
+2. **A per-label error write-up on `evidence`**, the worst label in my
+   confusion matrix: which label it gets confused with, and what those
+   misclassified posts have in common.
 
 ---
 
