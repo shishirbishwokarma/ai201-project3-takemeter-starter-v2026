@@ -298,23 +298,18 @@ change.
 <!-- Both models on the same posts. `python baseline.py --trained results.json`
      prints this table for you. -->
 
+Baseline: `facebook/bart-large-mnli`, zero-shot, using my definitions from
+`label_definitions.txt`. Trained: my unit 5 run (`results.json`, one seed).
+Both scored on the same 33 held-out posts in `test_split.csv` (13 `claim`, 10
+`evidence`, 10 `personal`).
+
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
-
-Baseline alone (`facebook/bart-large-mnli`, zero-shot, using my definitions
-from `label_definitions.txt`, on the same 33 posts in `test_split.csv`):
-
-| Measure | Baseline |
-|---|---|
-| Overall accuracy | 0.545 |
-| Macro F1 | 0.528 |
-| F1 — `claim` | 0.583 |
-| F1 — `evidence` | 0.429 |
-| F1 — `personal` | 0.571 |
+| Overall accuracy | 0.545 | 0.636 | +0.091 |
+| Macro F1 | 0.528 | 0.550 | +0.022 |
+| F1 — `claim` | 0.583 | 0.706 | +0.123 |
+| F1 — `evidence` | 0.429 | 0.182 | -0.247 |
+| F1 — `personal` | 0.571 | 0.762 | +0.190 |
 
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
@@ -327,7 +322,21 @@ be closer, since the baseline already does okay there.
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
      nothing — and that is a real finding, not a failure. Say it plainly. -->
+My prediction was wrong. `evidence` is the one label where training made things
+worse: F1 dropped from 0.429 to 0.182. Overall accuracy went up 9 points, but
+that came from `claim` and `personal`. Macro F1, which weighs all three labels
+equally, only went up 2 points, because the drop on `evidence` cancelled most of
+the gains.
 
+So training helped on two labels and hurt on the one I cared about most. The
+baseline, with only a one-line definition, finds `evidence` posts better than
+my trained model does. My guess is that the trained model learned to call most
+`evidence` posts `claim`, since `claim` is my biggest label and the line between
+them was my hardest boundary. The confusion matrix in Milestone 2 will show
+whether that's true.
+
+This is one seed and only 10 `evidence` posts in the test split, so one or two
+posts move that F1 a lot. The three-seed run will show whether the drop holds.
 
 
 ---
