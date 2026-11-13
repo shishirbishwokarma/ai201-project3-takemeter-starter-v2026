@@ -466,7 +466,7 @@ treats almost every `evidence` post as `claim`, and it only predicted
      data/staff_taxonomy.md, not your own — so every argument below is made
      from those definitions and those decision rules. -->
 
-**Agreement rate:** ___ / 30 = ___%
+**Agreement rate:** 20 / 30 = 67%
 
 <!-- Nobody grades this number. A 60% who argues every disagreement from the
      stated rules beats a 95% who wrote "staff was right" nine times. Several
@@ -489,25 +489,100 @@ treats almost every `evidence` post as `claim`, and it only predicted
      what you did across your own 200. -->
 
 **1.**
-> *The post:*
+> *The post:* "The club championship scoring changed in 2019 from top-6 to top-10. Since then our B team has finished above the A team twice. That's not depth improving, it's the scoring rewarding turnout."
 >
-> *Staff said / I said:*
+> *Staff said / I said:* `analysis` / `reaction`
 >
-> *My call, and why:*
+> *My call, and why:* Staff is right. The 2019 rule change and "B team above A team twice" are the argument. Take them out and "it's the scoring rewarding turnout" has nothing behind it. I read the chatty tone as a reaction, but rule 3 says tone and recency don't outrank a load-bearing fact.
 >
-> *Which pile:*
+> *Which pile:* (a)
 
 **2.**
-> *The post:*
+> *The post:* "Everyone blames the hill at 18 miles. I split the field into people who ran the first half under 1:45 and over, and the slowdown after 18 was almost identical for both groups. If the hill were the problem the fast starters would fall apart harder."
 >
-> *Staff said / I said:*
+> *Staff said / I said:* `analysis` / `reaction`
 >
-> *My call, and why:*
+> *My call, and why:* Staff is right. Splitting the field by first-half time and comparing the slowdown is a named comparison, and it's the whole post. It directly tests the "it's the hill" claim. I saw "I split" and treated it as the writer's own experience, which is the mistake rule 3 warns about.
 >
-> *Which pile:*
+> *Which pile:* (a)
+
+**3.**
+> *The post:* "Carbon plates aren't the whole story. My times dropped 2% in the shoes and another 2% the following year in the same pair, when the only thing that changed was going from 35 to 50 miles a week."
+>
+> *Staff said / I said:* `analysis` / `hot_take`
+>
+> *My call, and why:* I was wrong to say `hot_take`. That label needs "no support offered", and this post offers support: the two 2% drops, with the mileage change separating the shoe effect from the training effect. But I don't think `analysis` is clean either. The rule asks for a "checkable" fact, and these are one runner's own times that nobody else can check. The definitions don't say whether your own training log counts. I'd lean `analysis`, but that's a gap that would hit any post built on personal data.
+>
+> *Which pile:* (b)
+
+**4.**
+> *The post:* "Checked the entry lists. 41% of this year's field have never run the distance before, against 26% five years ago. That's why the finish-line photos look different, not because standards dropped."
+>
+> *Staff said / I said:* `analysis` / `hot_take`
+>
+> *My call, and why:* Staff is right. 41% against 26% is a named comparison, and the conclusion rests entirely on it. This is the second example under rule 1 (the number is the argument), not the first one (the number is a flourish). I saw a confident conclusion and stopped there.
+>
+> *Which pile:* (a)
+
+**5.**
+> *The post:* "Went back through the club results going back to 2012. Every single year the number of people who enter the spring marathon and don't start it sits between 18 and 23 percent. It's not a bad-luck year, it's the base rate."
+>
+> *Staff said / I said:* `analysis` / `reaction`
+>
+> *My call, and why:* Staff is right. "18 to 23 percent every year since 2012" is the evidence for "it's the base rate, not bad luck." It's a response to this year, but rule 3 says that doesn't outrank the fact. I labelled the looking-back tone instead of the argument.
+>
+> *Which pile:* (a)
+
+**6.**
+> *The post:* "The 10K route was remeasured in 2021 and came out 60 metres long. Everyone comparing PBs from before and after that is comparing two different races, which is about 12 seconds at club pace."
+>
+> *Staff said / I said:* `analysis` / `reaction`
+>
+> *My call, and why:* Staff is right. The date, the 60 metres and the 12 seconds together make the argument that PBs from either side of 2021 aren't comparable. Nothing in it is about how the writer feels. I don't have a defence for `reaction` here.
+>
+> *Which pile:* (a)
+
+**7.**
+> *The post:* "Track sessions are wasted on anyone running slower than 8 minute miles. You'd get more out of just running more."
+>
+> *Staff said / I said:* `hot_take` / `analysis`
+>
+> *My call, and why:* Staff is right. "8 minute miles" is a cut-off the writer picked, not evidence for anything. Nothing supports "you'd get more out of just running more." Under rule 1 it's a hot take with a number in it. I saw a specific number and called it analysis.
+>
+> *Which pile:* (a)
+
+**8.**
+> *The post:* "Nobody actually enjoys the long run. They enjoy having done it, which is a completely different thing, and the sport would be more honest if it said so."
+>
+> *Staff said / I said:* `hot_take` / `reaction`
+>
+> *My call, and why:* Staff is right. "Nobody actually enjoys the long run" is a general claim about every runner, not the writer's own experience, and the post never says "I." Rule 2 settles it, and the definition says a heated post can still be `hot_take`.
+>
+> *Which pile:* (a)
+
+**9.**
+> *The post:* "Wind was so bad on the out section I was leaning at about 20 degrees. Coming back felt like cheating."
+>
+> *Staff said / I said:* `reaction` / `analysis`
+>
+> *My call, and why:* Staff is right. "20 degrees" describes what the run felt like. It doesn't support any argument because there isn't one. It's the writer's own experience of a run that just happened, which is the `reaction` definition word for word.
+>
+> *Which pile:* (a)
+
+**10.**
+> *The post:* "Just realised the shoes I set every PB in this year are the ones I bought by accident in the wrong size."
+>
+> *Staff said / I said:* `reaction` / `analysis`
+>
+> *My call, and why:* `analysis` was wrong. There's no argument, just a surprised realisation, and "every PB" isn't used to prove anything. But `reaction` doesn't fit cleanly either. It's defined as "usually about the writer's own experience, in the last few hours," and this covers a whole year. The realising just happened, but the thing being reacted to didn't. The taxonomy has nowhere to put a personal observation that isn't recent, so staff picked the nearest label. I'd say that's a gap in the definitions.
+>
+> *Which pile:* (b)
 
 **What the pattern in my disagreements tells me:**
 
+Eight of my ten are pile (a), and they all sit on the same boundary: does the fact carry the argument? I got it wrong in both directions. On 1, 2, 5 and 6 there were load-bearing facts, but the posts were written in first person ("I split", "went back through"), so I called them `reaction`. On 7, 9 and 10 there was a number or a concrete detail doing no work, and I called them `analysis`. Both mistakes are the same habit: I labelled a surface feature (the tone, or whether a number shows up) instead of asking whether the fact is the reason for the conclusion.
+
+That matters for my own project. My model's main failure is evidence collapsing into claim, and this is the same line. If I applied someone else's written rule loosely on 30 posts, I very likely did it on my own 200 too. So I read the evidence/claim confusion as a labelling problem first and a model problem second. Rule 1's test, "would the argument fall apart without the number?", is the one I should go back and re-apply to my `evidence` and `claim` rows.
 
 
 ---
