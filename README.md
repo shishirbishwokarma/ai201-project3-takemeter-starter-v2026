@@ -287,9 +287,10 @@ one individually. I'm reviewing those before unit 6 and will note any I
 change.
 
 **Unit 6 disclosure:** In unit 6 I used Claude (in Claude Code) more heavily.
-It ran the agreement check and the three-seed after-run, and did the
-evidence/claim re-check of the 137 rows described in The Improvement, using my
-written rule. The 9 changed rows each say so in the note column. It also
+It ran the agreement check and the three-seed after-run. For the re-check in
+The Improvement, Claude went through the 137 rows against my written rule and
+flagged 9. I read each of the 9 with its reason and kept all of them. Those
+rows say so in the note column. It also
 drafted the unit 6 sections of this README (the adjudications, verdicts,
 diagnoses, the improvement write-up and What's Still Broken) from my results
 files. For the disagreements it laid out options for each one and I went with
