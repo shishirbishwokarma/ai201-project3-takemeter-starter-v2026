@@ -286,6 +286,15 @@ decided X`. For the 175 rows where both passes agreed, I kept the label and have
 one individually. I'm reviewing those before unit 6 and will note any I
 change.
 
+**Unit 6 disclosure:** In unit 6 I used Claude (in Claude Code) more heavily.
+It ran the agreement check and the three-seed after-run, and did the
+evidence/claim re-check of the 137 rows described in The Improvement, using my
+written rule. The 9 changed rows each say so in the note column. It also
+drafted the unit 6 sections of this README (the adjudications, verdicts,
+diagnoses, the improvement write-up and What's Still Broken) from my results
+files. For the disagreements it laid out options for each one and I went with
+its recommended set.
+
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
      Don't fill these in during unit 5.
@@ -505,6 +514,9 @@ assumed the model would sometimes be confident. It never is, so the confident
 group is empty on all three seeds and I can't produce a verdict. That's the
 case the brief allows a revision for: a criterion that can't be measured.
 (The model's low confidence is itself a symptom of the label noise above.)
+I revised it in `criteria.md` to compare the most confident third with the
+least confident third. Under the revised version the before-run is still a
+miss: the gap was +54.5, +54.5 and +9.1 points, and seed 2024 is under 10.
 
 **Criterion 5 (re-label 10 / 20) — a labelling problem, by definition.** This
 one measures me, not the model. The changes weren't on one boundary: 5 were
@@ -653,24 +665,90 @@ That matters for my own project. My model's main failure is evidence collapsing 
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** I re-checked every `evidence` and `claim` row against my
+own written rule, applied strictly: it's `evidence` only if there's a number,
+date or angle about the world, a named rule, a study, or a named source or
+link. A prescription with a number doesn't count, and the poster's own numbers
+make it `personal`. That was 137 rows (I left the 20 `cold` rows alone so
+criterion 5 still compares against my original first pass). 9 of the 137
+broke the rule, and I changed them:
 
-**Which diagnosis pointed at it:**
+- 4 `evidence` → `claim`: posts that explain a mechanism and name muscles but
+  give no number, rule or source (rows 108, 134, 188, 195).
+- 1 `evidence` → `personal`: the support was the poster's own abs (row 37).
+- 4 `claim` → `evidence`: posts that name a source I'd counted in other rows
+  but not these (Mike Israetel's video, Revive Stronger, Barbell Medicine's
+  Beginner Prescription, the SprintTime app).
+
+Every changed row has a `unit 6 re-check` note saying what it was and why.
+The old file is kept as `labels_before.csv`. Nothing else changed: same model,
+same settings, same seeds. New counts: 85 `claim`, 71 `personal`, 63
+`evidence`.
+
+**Which diagnosis pointed at it:** Criterion 2. The diagnosis was that I'd
+applied the evidence/claim line inconsistently, from my 10/20 re-label, the
+pile (a) pattern in my agreement report, and the pre-label passes splitting
+mostly on that line. If that was the cause, cleaning that line should move
+`evidence` F1.
 
 ### Run Log — After
 
+Same setup as before: `mps`, distilbert-base-uncased, 3 epochs, lr 2e-5,
+batch 16. Raw numbers in `results_three_seeds_after.json`. Each test split now
+has 9 `evidence`, 13 `claim` and 11 `personal` posts.
+
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.55 on all three | 0.636 | 0.545 | 0.515 | MISSED |
+| 2. Every label F1 | ≥ 0.40 on all three | lowest 0.000 (`evidence`) | lowest 0.200 (`evidence`) | lowest 0.200 (`evidence`) | MISSED |
+| 3. Largest label share of `labels.csv` | ≤ 60% | 38.8% (`claim`, 85/219) | same file | same file | MET |
+| 4. (revised) Most vs least confident third | ≥ 10 points on all three | +18.2 | −9.1 | +27.3 | MISSED |
+| 5. Re-label 20 `cold` posts | ≥ 16 / 20 | 10 / 20 (not re-run) | — | — | MISSED |
+
+Criterion 5 didn't change because I didn't touch the `cold` rows, and it
+measures me rather than the model.
+
+| Measure | Seed 42 | Seed 7 | Seed 2024 | Spread |
+|---|---|---|---|---|
+| Overall accuracy | 0.636 | 0.545 | 0.515 | 0.121 |
+| Macro F1 | 0.509 | 0.446 | 0.433 | 0.075 |
+| F1 — `evidence` | 0.000 | 0.200 | 0.200 | 0.200 |
+| F1 — `claim` | 0.684 | 0.667 | 0.600 | 0.084 |
+| F1 — `personal` | 0.842 | 0.471 | 0.500 | 0.372 |
+
+All three seeds added together (99 test posts):
+
+| true \ predicted | evidence | claim | personal |
+|---|---|---|---|
+| **evidence** | 2 | 23 | 2 |
+| **claim** | 0 | 38 | 1 |
+| **personal** | 0 | 17 | 16 |
 
 **Did it help, and how do I know:**
 
-<!-- If it didn't, say so. Relabelling that didn't help is a genuinely
-     interesting result and earns full credit. -->
+No. `evidence` F1 went from 0.182 / 0.182 / 0.000 to 0.000 / 0.200 / 0.200,
+which is the same thing shuffled between seeds. Added up over the three seeds,
+the model still predicted `evidence` only twice in 99 posts, and 23 of 27 real
+`evidence` posts still went to `claim` (25 of 30 before). Accuracy on seed 7
+crossed 0.55 but seed 2024 dropped under it, so criterion 1 is still a miss.
+Macro F1 moved by less than the spread between seeds, so I can't call any of
+it a real change.
+
+What this tells me is that my diagnosis was only partly right. The re-check
+found 9 bad rows out of 137, about 7%. That's real inconsistency, but it's not
+enough to explain a model that almost never says `evidence`. If messy labels
+were the main cause, fixing them should have moved recall at least a little,
+and it didn't move at all. So the bigger cause is probably on the model and
+data side: around 44 `evidence` examples per training split, a model that's
+never confident about anything, and `claim` as the safe default. My
+`evidence` label is also hard for a model to see. A post is `evidence` because
+of one number or one named source somewhere in it, which might come after the
+128-token cut-off, and otherwise it looks exactly like a `claim` post.
+
+One caveat: my cold re-label (10/20) says my labels are noisier than 7%. The
+re-check only looked at one boundary, and I was checking against the rule
+with the rule in front of me, which is easier than labelling cold. So there
+may be more noise I didn't catch, especially between `claim` and `personal`.
 
 
 
@@ -680,12 +758,40 @@ That matters for my own project. My model's main failure is evidence collapsing 
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
+**Criterion 2 (`evidence` F1), and criterion 1 with it.** Next I'd try the
+model side, one change at a time. First, raise max length from 128 to 256 so
+long answers aren't cut before the fact that makes them `evidence`. That's
+cheap and directly tests one of my guesses. Second, more `evidence` examples:
+I had 449 candidates and only used 219, and there are more `evidence` posts in
+the leftovers. I stopped because the brief asks for one improvement with a
+clean before and after, and changing the labels and the model together would
+have made it impossible to tell which one did anything.
 
+**Criterion 4 (confidence).** Under the revised version the gap swings from
++27 to −9 between seeds. With 11 posts per third, one post is 9 points, so this
+criterion is mostly measuring noise on a 33-post test set. I'd need a bigger
+test set before it can tell me anything, which means more data, not a
+different threshold.
+
+**Criterion 5 (my own consistency, 10/20).** This is the one I'm least happy
+with. I'd write down a short worked example for each boundary (`claim` vs
+`personal` most of all, since 5 of my 10 flips were there), then re-label the
+20 `cold` posts again a few days later and see whether the examples help. I
+didn't do it here because re-labelling the same 20 again right now would just
+be testing my memory of them.
+
+**The 175 rows I never re-read one by one.** I re-checked their
+evidence/claim line in this unit, but not the `personal` boundary. That's
+still open.
 
 **The gap between what I meant my labels to capture and what the model
 learned:**
-<!-- Two sentences. Your confusion matrix is the evidence. -->
-
+I meant `evidence` to mean "there's something in here a reader could check,"
+but the model learned "`claim` unless the post is obviously a personal story,"
+and it called 23 of 27 real `evidence` posts `claim` and only 2 posts
+`evidence` in 99. The thing that makes a post `evidence` for me is often one
+number or one source name in an otherwise ordinary advice post, and with this
+little data the model never learned to look for it.
 
 
 <!-- ═════════════════════════════════════════════════════════════════════
