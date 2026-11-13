@@ -346,30 +346,72 @@ posts move that F1 a lot. The three-seed run will show whether the drop holds.
 <!-- Five criteria across three seeds. The notebook's section 6 prints the
      spread table; the Target and Verdict columns are yours. -->
 
+Run on my Mac: `mps` (Apple Silicon GPU), torch 2.14.1. distilbert-base-uncased,
+3 epochs, learning rate 2e-5, batch 16. Each seed is a different 70/15/15
+split of the 219 posts, with 33 test posts each time. Seed 42 reproduced my
+unit 5 run exactly (0.636). Raw numbers are in `results_three_seeds_before.json`.
+
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.55 on all three | 0.636 | 0.485 | 0.545 | MISSED |
+| 2. Every label F1 | ≥ 0.40 on all three | lowest 0.182 (`evidence`) | lowest 0.182 (`evidence`) | lowest 0.000 (`evidence`) | MISSED |
+| 3. Largest label share of `labels.csv` | ≤ 60% | 38.8% (`claim`, 85/219) | same file | same file | MET |
+| 4. Confident (>0.7) vs unsure accuracy gap | ≥ 10 points on all three | no prediction above 0.7 | no prediction above 0.7 | no prediction above 0.7 | CAN'T MEASURE AS WRITTEN |
+| 5. Re-label 20 `cold` posts, same label | ≥ 16 / 20 | — | — | — | NOT RUN YET |
+
+Criterion 3 is about the dataset, not a split, so it's the same number for all
+three seeds. Criterion 5 is me re-labelling, not the model, so seeds don't
+apply to it either.
+
+Per-label F1 across seeds (section 6's spread table):
+
+| Measure | Seed 42 | Seed 7 | Seed 2024 | Spread |
+|---|---|---|---|---|
+| Overall accuracy | 0.636 | 0.485 | 0.545 | 0.152 |
+| Macro F1 | 0.550 | 0.394 | 0.434 | 0.156 |
+| F1 — `evidence` | 0.182 | 0.182 | 0.000 | 0.182 |
+| F1 — `claim` | 0.706 | 0.600 | 0.634 | 0.106 |
+| F1 — `personal` | 0.762 | 0.400 | 0.667 | 0.362 |
+
+**The spread:** accuracy moved 15 points across the three seeds, more than the
+10 points the notebook calls stable. One reason is the small test set: each
+test split has 33 posts and only 10 of each smaller label, so one post moves a
+label's F1 a lot. The model is also unsure about everything. Its most
+confident guess on any post, in any seed, was about 0.5, when a three-way coin
+flip is 0.33. So small changes in the split tip a lot of posts from one label
+to another.
 
 ### Confusion matrix
 
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
+Seed 42 (what section 7 prints):
+
+| true \ predicted | evidence | claim | personal |
 |---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| **evidence** | 1 | 7 | 2 |
+| **claim** | 0 | 12 | 1 |
+| **personal** | 0 | 2 | 8 |
+
+All three seeds added together (99 test posts):
+
+| true \ predicted | evidence | claim | personal |
+|---|---|---|---|
+| **evidence** | 2 | 25 | 3 |
+| **claim** | 0 | 37 | 2 |
+| **personal** | 0 | 14 | 16 |
 
 **My biggest off-diagonal number, and what it means:**
 <!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
      direction. "7 real analysis posts were called hot_take and only 3 went the
      other way" is a direction, not just an error rate. -->
-
+In seed 42, 7 of the 10 real `evidence` posts were called `claim`, and 0 real
+`claim` posts went the other way. Across all three seeds it's 25 of 30, and
+still 0 the other way. The model never learned the evidence/claim boundary. It
+treats almost every `evidence` post as `claim`, and it only predicted
+`evidence` twice in 99 posts. `claim` is where nearly all the mistakes go: 14 of
+30 `personal` posts landed there too.
 
 
 ---
