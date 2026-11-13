@@ -287,7 +287,8 @@ one individually. I'm reviewing those before unit 6 and will note any I
 change.
 
 **Unit 6 disclosure:** In unit 6 I used Claude (in Claude Code) more heavily.
-It ran the agreement check and the three-seed after-run. For the re-check in
+It ran the agreement check, the three-seed after-runs (including the 256-token
+one) and the per-post predictions behind the error write-up. For the re-check in
 The Improvement, Claude went through the 137 rows against my written rule and
 flagged 9. I read each of the 9 with its reason and kept all of them. Those
 rows say so in the note column. It also
@@ -765,20 +766,104 @@ I'm declaring these two before I do them:
    confusion matrix: which label it gets confused with, and what those
    misclassified posts have in common.
 
+### Stretch 1: second improvement, max length 256
+
+**What I changed:** `MAX_LENGTH` from 128 to 256. Same corrected
+`labels.csv`, same model, settings and seeds as Run Log — After. Raw numbers
+in `results_three_seeds_after2.json`.
+
+**Which diagnosis pointed at it:** Criterion 2 again. After the label
+re-check didn't help, my next guess was truncation. 12 of the 23 `evidence`
+posts the model called `claim` are longer than 128 tokens, so it never saw the
+end of them.
+
+| Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
+|---|---|---|---|---|---|
+| 1. Overall accuracy | ≥ 0.55 on all three | 0.576 | 0.485 | 0.576 | MISSED |
+| 2. Every label F1 | ≥ 0.40 on all three | lowest 0.000 (`evidence`) | lowest 0.000 (`evidence`) | lowest 0.364 (`evidence`) | MISSED |
+| 3. Largest label share of `labels.csv` | ≤ 60% | 38.8% (`claim`, 85/219) | same file | same file | MET |
+| 4. (revised) Most vs least confident third | ≥ 10 points on all three | +18.2 | +18.2 | +0.0 | MISSED |
+| 5. Re-label 20 `cold` posts | ≥ 16 / 20 | 10 / 20 (not re-run) | — | — | MISSED |
+
+| Measure | Seed 42 | Seed 7 | Seed 2024 | Spread |
+|---|---|---|---|---|
+| Overall accuracy | 0.576 | 0.485 | 0.576 | 0.091 |
+| Macro F1 | 0.452 | 0.353 | 0.516 | 0.163 |
+| F1 — `evidence` | 0.000 | 0.000 | 0.364 | 0.364 |
+| F1 — `claim` | 0.650 | 0.615 | 0.650 | 0.035 |
+| F1 — `personal` | 0.706 | 0.444 | 0.533 | 0.262 |
+
+All three seeds added together (99 test posts):
+
+| true \ predicted | evidence | claim | personal |
+|---|---|---|---|
+| **evidence** | 2 | 23 | 2 |
+| **claim** | 0 | 38 | 1 |
+| **personal** | 0 | 19 | 14 |
+
+**Did it help:** No, it made things slightly worse. The `evidence` row of the
+matrix is identical to the 128 run: 2 right, 23 to `claim`, 2 to `personal`.
+Seeing twice as much of each post didn't rescue a single `evidence` post.
+Accuracy dropped on seed 42 (0.636 → 0.576) and seed 7 (0.545 → 0.485), and
+more `personal` posts fell into `claim` (17 → 19). So truncation isn't the
+reason `evidence` fails. I'm keeping 128 as the setting.
+
+### Stretch 2: what the misclassified `evidence` posts have in common
+
+I re-ran the 128-token after-run with the same seeds (it reproduced the
+numbers exactly) and saved the prediction for every test post. Across the
+three seeds there are 27 real `evidence` posts. The model got 2 right, sent 2
+to `personal`, and sent **23 to `claim`**. `claim` is the only confusion that
+matters. I read all 23, and they have three things in common:
+
+1. **Most are written as advice.** About 10 of the 23 are addressed to the
+   asker in the imperative: "make sure you get adequate rest between sets",
+   "switch to an auto regulation program", "get a stronger back". The study or
+   source is one sentence in the middle ("The study 'Rest interval between sets
+   in strength training' advocates for 3–5 minutes"). Everything around it
+   reads exactly like a `claim` post, and `claim` is mostly advice. The model
+   is labelling the register, not the fact, which is the same mistake I made
+   on the staff set.
+2. **The evidence is often a link the model can't see.** I stripped HTML
+   when I collected the posts, so links became just "here" or "this paper".
+   "You can read a more thorough explanation here", "This review of the
+   literature gives some examples", "this paper gives a solid analysis" are
+   all `evidence` because of a link that isn't in the text any more. From the
+   model's side, those posts have no evidence in them.
+3. **Even dense numbers don't register.** Posts with "reduced cardiovascular
+   disease by around 30%", "208 − (0.7 × age)" or a quoted study title still
+   went to `claim`. With about 44 `evidence` examples to learn from, the model
+   hasn't learned that numbers and study titles mean anything.
+
+Two smaller things. All 4 rows I changed from `claim` to `evidence` in the
+re-check (the SprintTime app, Revive Stronger, Barbell Medicine, Mike
+Israetel) are in the 23. Those are posts where a named source sits inside
+ordinary advice, so they're the hardest kind for the model, and maybe also the
+weakest kind of `evidence` under my rule. And both posts that went to
+`personal` open with the poster's credentials ("I am a College T&F/XC
+Coach…", "I am a trained physiotherapist…"), so a first-person opening pulls
+a post toward `personal` even when the support is a named workout or trial.
+
+What I'd change based on this: either keep links in the text as a token like
+`[link]` so the model can see a source is there, or tighten my rule so a source
+only counts when the post leans on it, not when it's dropped into advice. The
+second one would make `evidence` smaller but much easier to see.
+
 ---
 
 ## What's Still Broken
 
 <!-- For each criterion still missed: what you'd do, and why you stopped. -->
 
-**Criterion 2 (`evidence` F1), and criterion 1 with it.** Next I'd try the
-model side, one change at a time. First, raise max length from 128 to 256 so
-long answers aren't cut before the fact that makes them `evidence`. That's
-cheap and directly tests one of my guesses. Second, more `evidence` examples:
-I had 449 candidates and only used 219, and there are more `evidence` posts in
-the leftovers. I stopped because the brief asks for one improvement with a
-clean before and after, and changing the labels and the model together would
-have made it impossible to tell which one did anything.
+**Criterion 2 (`evidence` F1), and criterion 1 with it.** I've now ruled
+out two causes: label noise on the evidence/claim line (Run Log — After) and
+truncation (Stretch 1). Neither moved `evidence` at all. The error write-up
+points at two things I haven't tried. First, put links back into the text as
+a `[link]` token, because several `evidence` posts lost their only source when
+I stripped the HTML. Second, more `evidence` examples: I had 449 candidates
+and only used 219, and there are more `evidence` posts in the leftovers. I
+stopped here because both mean re-collecting or re-labelling data, which is a
+bigger job than one more training run.
 
 **Criterion 4 (confidence).** Under the revised version the gap swings from
 +27 to −9 between seeds. With 11 posts per third, one post is 9 points, so this
