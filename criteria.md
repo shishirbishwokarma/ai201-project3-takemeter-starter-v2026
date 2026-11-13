@@ -95,6 +95,16 @@ the unsure ones, on all three seeds.
 often, the confidence number means nothing and the model is basically
 guessing. A 10 point gap shows its confidence actually tells me something.
 
+> **Revised in unit 6:** On the held-out test split, sort the predictions by
+> the model's top probability and compare the most confident third with the
+> least confident third. Accuracy on the most confident third is **at least 10
+> percentage points higher**, on all three seeds.
+>
+> **Why revised:** No prediction on any seed went above 0.7 (the highest was
+> about 0.5), so the "confident" group was empty and I couldn't produce a
+> verdict at all. Splitting by thirds always gives two groups to compare, and
+> the 10 point gap I'm asking for stays the same.
+
 ---
 
 ## 5. I agree with my own cold labels at least 16 out of 20 times

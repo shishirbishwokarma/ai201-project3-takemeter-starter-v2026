@@ -437,11 +437,11 @@ treats almost every `evidence` post as `claim`, and it only predicted
 
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Overall accuracy | ≥ 0.55 on all three seeds | MISSED | 0.636, 0.485, 0.545. Two of three are under 0.55. |
+| 2 | Every label F1 | ≥ 0.40 on all three seeds | MISSED | `evidence` F1 was 0.182, 0.182, 0.000. `claim` and `personal` cleared 0.40 on every seed. |
+| 3 | Largest label share | ≤ 60% of `labels.csv` | MET | `claim` is 85 of 219, 38.8%. |
+| 4 | Confident vs unsure accuracy gap | ≥ 10 points on all three seeds | BROKEN | No prediction on any seed went above 0.7, so the "confident" group is empty and there's no gap to measure. |
+| 5 | Re-label 20 `cold` posts | ≥ 16 / 20 the same | MISSED | 10 / 20 the same. |
 
 **Diagnoses**
 
@@ -454,6 +454,70 @@ treats almost every `evidence` post as `claim`, and it only predicted
      have that can tell a LABELLING problem from a MODEL problem, and this
      section is graded on whether you used it that way. -->
 
+**Criterion 2 (`evidence` F1) — main cause: I applied the evidence/claim
+boundary inconsistently.** This is the miss that matters most, and the others
+mostly follow from it. Across the three seeds, 25 of 30 real `evidence` posts
+were predicted `claim`, and 0 went the other way. Four things point at my labels
+rather than the model:
+
+1. **My own re-label (criterion 5).** I only matched myself on 10 of 20 cold
+   posts. 3 of the 10 changes were between `claim` and `evidence`. If I can't
+   put the same post on the same side of that line twice, the training data
+   can't either.
+2. **The agreement report.** On the staff set I matched 20 of 30, and 8 of my
+   10 misses were pile (a): the rule covered it and I applied it loosely. All 8
+   were on the staff's version of my hardest boundary — does the fact actually
+   carry the argument (`analysis` vs `hot_take`)? I got it wrong in both
+   directions. I called posts with real supporting facts `reaction` because
+   they were first person, and called posts with a decorative number
+   `analysis`. That's me reacting to surface features (tone, or whether a
+   number appears) instead of applying the rule. It's someone else's taxonomy
+   on running posts, so it isn't proof about my 200, but it's the same habit on
+   the same kind of line.
+3. **The pre-label splits.** The two blind Claude passes disagreed on 25
+   posts, and 15 of the 24 I kept were `claim` vs `evidence`. That's the
+   boundary where even two runs of the same model reading my exact definitions
+   couldn't agree. And for the 175 rows where they did agree, I haven't
+   re-read each one, so any shared mistake there went straight into training.
+4. **The baseline does better on `evidence` than my trained model** (0.429 vs
+   0.182). The zero-shot model only saw my one-line definition, not my
+   labelled examples, and it found more `evidence` posts. If the label were
+   simply too hard to see in the text, the baseline should struggle too. That
+   it doesn't suggests my examples taught the trained model something muddier
+   than my definition.
+
+**Contributing model-side causes.** Labels aren't the whole story. There are
+only about 45 `evidence` posts in each training split, and `claim` is the biggest label, so when
+the model is unsure, `claim` is the safe guess. It is unsure about everything:
+its top probability never went above about 0.5. And with max length 128, some
+long answers get cut before the checkable fact, which hits `evidence` hardest.
+But I'd fix the labels first, because more data or more epochs on inconsistent
+labels would mostly teach the inconsistency harder.
+
+**Criterion 1 (accuracy) — mostly a knock-on from criterion 2.** `claim` and
+`personal` are fine on every seed. The accuracy misses on seeds 7 and 2024 come
+from `evidence` getting nearly nothing right and from 14 of 30 `personal`
+posts also falling into `claim` across the seeds. With 33 test posts, a handful
+of those is the whole gap below 0.55.
+
+**Criterion 4 — the criterion is broken, not just missed.** The 0.7 cut-off
+assumed the model would sometimes be confident. It never is, so the confident
+group is empty on all three seeds and I can't produce a verdict. That's the
+case the brief allows a revision for: a criterion that can't be measured.
+(The model's low confidence is itself a symptom of the label noise above.)
+
+**Criterion 5 (re-label 10 / 20) — a labelling problem, by definition.** This
+one measures me, not the model. The changes weren't on one boundary: 5 were
+`claim`/`personal`, 3 `claim`/`evidence`, and 2 `evidence`/`personal`. The
+agreement report shows the same thing from a different angle, under somebody
+else's rules. My rule sounds clear ("one checkable fact anywhere makes it
+`evidence`"), but I wasn't applying it the same way every time, and
+`personal` vs `claim` is less settled than I thought too.
+
+**So the first fix is the labels.** Go back through the `evidence` and `claim`
+rows, especially the 175 I haven't re-read, and apply my rule strictly: is
+there a fact about the world a reader could check? Then retrain on all three
+seeds and see whether `evidence` recall moves.
 
 
 ---
