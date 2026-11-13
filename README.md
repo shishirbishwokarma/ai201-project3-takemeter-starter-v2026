@@ -368,6 +368,7 @@ unit 5 run exactly (0.636). Raw numbers are in `results_three_seeds_before.json`
 | 2. Every label F1 | ≥ 0.40 on all three | lowest 0.182 (`evidence`) | lowest 0.182 (`evidence`) | lowest 0.000 (`evidence`) | MISSED |
 | 3. Largest label share of `labels.csv` | ≤ 60% | 38.8% (`claim`, 85/219) | same file | same file | MET |
 | 4. Confident (>0.7) vs unsure accuracy gap | ≥ 10 points on all three | no prediction above 0.7 | no prediction above 0.7 | no prediction above 0.7 | CAN'T MEASURE AS WRITTEN |
+| 4. (revised) Most vs least confident third | ≥ 10 points on all three | +54.5 | +54.5 | +9.1 | MISSED |
 | 5. Re-label 20 `cold` posts, same label | ≥ 16 / 20 | 10 / 20 (one re-label, no seeds) | — | — | MISSED |
 
 Criterion 3 is about the dataset, not a split, so it's the same number for all
