@@ -305,9 +305,24 @@ change.
 | F1 — `label_one` |  |  |  |
 | F1 — `label_two` |  |  |  |
 
+Baseline alone (`facebook/bart-large-mnli`, zero-shot, using my definitions
+from `label_definitions.txt`, on the same 33 posts in `test_split.csv`):
+
+| Measure | Baseline |
+|---|---|
+| Overall accuracy | 0.545 |
+| Macro F1 | 0.528 |
+| F1 — `claim` | 0.583 |
+| F1 — `evidence` | 0.429 |
+| F1 — `personal` | 0.571 |
+
 **What I predicted before I looked:**
 <!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
      prediction made afterwards isn't one. -->
+I predict the trained model will beat the baseline most on `evidence`, because
+my examples taught it what a checkable fact looks like (numbers, studies, named
+rules), while the baseline only had a one-line definition. I expect `claim` to
+be closer, since the baseline already does okay there.
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added
