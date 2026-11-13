@@ -357,11 +357,25 @@ unit 5 run exactly (0.636). Raw numbers are in `results_three_seeds_before.json`
 | 2. Every label F1 | ≥ 0.40 on all three | lowest 0.182 (`evidence`) | lowest 0.182 (`evidence`) | lowest 0.000 (`evidence`) | MISSED |
 | 3. Largest label share of `labels.csv` | ≤ 60% | 38.8% (`claim`, 85/219) | same file | same file | MET |
 | 4. Confident (>0.7) vs unsure accuracy gap | ≥ 10 points on all three | no prediction above 0.7 | no prediction above 0.7 | no prediction above 0.7 | CAN'T MEASURE AS WRITTEN |
-| 5. Re-label 20 `cold` posts, same label | ≥ 16 / 20 | — | — | — | NOT RUN YET |
+| 5. Re-label 20 `cold` posts, same label | ≥ 16 / 20 | 10 / 20 (one re-label, no seeds) | — | — | MISSED |
 
 Criterion 3 is about the dataset, not a split, so it's the same number for all
 three seeds. Criterion 5 is me re-labelling, not the model, so seeds don't
 apply to it either.
+
+**Criterion 5, the re-label:** On Nov 13, eleven days after the first pass, I
+re-labelled the 20 `cold` posts without looking at `labels.csv`. They're in
+`cold_relabel.csv`, shuffled. Only 10 of 20 matched my first labels:
+
+| first \ now | claim | evidence | personal |
+|---|---|---|---|
+| **claim** | 4 | 3 | 2 |
+| **evidence** | 0 | 2 | 1 |
+| **personal** | 3 | 1 | 4 |
+
+The 10 changes aren't all on one boundary. 5 moved between `claim` and
+`personal`, 3 between `claim` and `evidence`, and 2 between `evidence` and
+`personal`.
 
 Per-label F1 across seeds (section 6's spread table):
 
